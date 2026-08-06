@@ -1,4 +1,4 @@
-%global grub_efi_cc_dir %{grub_evr_dir}/EFI/%{os_id}/cc
+%global grub_efi_cc_dir %{grub_evr_dir}/EFI/%{efi_vendor}/cc
 
 %global grubeficcname grub%{efiarch}-cc.efi
 %global grubeficccdname gcd%{efiarch}-cc.efi
@@ -22,7 +22,7 @@
 
 %define define_efi_cc_variant(o)						\
 %{expand:%%package %{1}-cc}						\
-Summary:	GRUB for EFI systems.					\
+Summary:	GRUB for EFI Confidential Computing systems.		\
 Requires:	efi-filesystem						\
 Requires:	grub2-common = %{evr}					\
 Requires:	grub2-tools-minimal >= %{evr}				\
@@ -38,33 +38,9 @@ This subpackage provides support for Confidential Computing %{1} systems.			\
 %{expand:%%{?!buildsubdir:%%define buildsubdir grub-%{1}-%{tarversion}-cc}}\
 
 %define do_primary_efi_cc_build()					\
-cd grub-%{1}-%{tarversion}-cc					\
-%{expand:%%do_efi_cc_configure %%{4} %%{5} %%{6}}			\
-%do_efi_build_all						\
+cd grub-%{1}-%{tarversion}					\
 %{expand:%%do_efi_cc_build_images %{grub_target_name} %{2} %{3} ./ } \
 cd ..								\
-%{nil}
-
-%define do_efi_cc_configure()					\
-%configure							\\\
-	%{cc_equals}						\\\
-	HOST_CFLAGS="%{3}"					\\\
-	HOST_CPPFLAGS="-I$(pwd)"				\\\
-	HOST_LDFLAGS="%{efi_host_ldflags}"			\\\
-	TARGET_CFLAGS="%{2}"					\\\
-	TARGET_CPPFLAGS="-I$(pwd)"				\\\
-	TARGET_LDFLAGS="%{efi_target_ldflags}"			\\\
-	PACKAGE_STRING="GRUB CC %{version}-%{release}"		\\\
-	--with-rpm-version=%{version}-%{release}		\\\
-	--with-platform=efi					\\\
-	--with-utils=host					\\\
-	--with-pcr8-disabled=yes				\\\
-	--target=%{1}						\\\
-	--with-grubdir=grub2					\\\
-	--program-transform-name=s,grub,grub2,		\\\
-	--disable-werror || ( cat config.log ; exit 1 )		\
-git add .							\
-git commit -m "After efi confidential computing configure"				\
 %{nil}
 
 %define do_efi_cc_build_images()					\
@@ -85,6 +61,7 @@ mksquashfs memdisk memdisk.squashfs -comp lzo			\
 	-m memdisk.squashfs					\\\
 	-c '%{SOURCE17}'                                        \\\
 	-p /EFI/%{efi_vendor}					\\\
+	--disable-tpm-string-pcr                                \\\
 	${GRUB_MODULES}						\
 %{4}./grub-mkimage -O %{1} -o %{3}.orig				\\\
 	-d grub-core						\\\
@@ -92,7 +69,8 @@ mksquashfs memdisk memdisk.squashfs -comp lzo			\
 	-c '%{SOURCE17}'                                        \\\
 	-m memdisk.squashfs					\\\
 	-p /EFI/BOOT						\\\
-	${GRUB_MODULES}						\
+	--disable-tpm-string-pcr                                \\\
+	${GRUB_CC_MODULES}						\
 %{expand:%%define ___pesign_client_cert %{?___pesign_client_cert}%{!?___pesign_client_cert:%{__pesign_client_cert}}} \
 %{?__pesign_client_cert:%{expand:%%define __pesign_client_cert %{___pesign_client_cert}}} \
 %{expand:%%{pesign -s -i %%{2}.orig -o %%{2}.onesig -a %%{5} -c %%{6} -n %%{7}}}	\
@@ -103,7 +81,7 @@ mksquashfs memdisk memdisk.squashfs -comp lzo			\
 %{nil}
 
 %define do_efi_cc_install()					\
-cd grub-%{1}-%{tarversion}-cc					\
+cd grub-%{1}-%{tarversion}					\
 install -d -m 0700 ${RPM_BUILD_ROOT}%{grub_efi_cc_dir}/		\
 install -m 700 %{2} $RPM_BUILD_ROOT%{grub_efi_cc_dir}/%{2}	\
 %{expand:%%do_install_protected_file grub2-%{package_arch}-cc}	\
