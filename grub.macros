@@ -95,6 +95,7 @@
 
 %global with_efi_arch 0
 %global with_alt_efi_arch 0
+%global with_efi_cc 0
 %global with_legacy_arch 0
 %global with_emu_arch 1
 %global with_xen_arch 0
@@ -129,6 +130,7 @@
 
 %global efi_only aarch64 %{arm} riscv64
 %global efi_arch x86_64 ia64 %{efi_only}
+%global efi_cc aarch64 x86_64
 %ifarch %{efi_arch}
 %global with_efi_arch 1
 %else
@@ -139,10 +141,17 @@
 %else
 %global with_efi_only 0
 %endif
+%ifarch %{efi_cc}
+%global with_efi_cc 1
+%else
+%global with_efi_cc 0
+%endif
 %{!?with_efi_arch:%global without_efi_arch 0}
 %{?with_efi_arch:%global without_efi_arch 1}
 %{!?with_efi_only:%global without_efi_only 0}
 %{?with_efi_only:%global without_efi_only 1}
+%{!?with_efi_cc:%global without_efi_cc 0}
+%{?with_efi_cc:%global without_efi_cc 1}
 
 %ifarch %{efi_arch}
 %global efi_modules " efi_netfs efifwsetup efinet lsefi lsefimmap connectefi bli "
