@@ -716,6 +716,10 @@ find . '(' -iname gdb_grub					\\\
 	')'							\\\
 	-exec cp {} $RPM_BUILD_ROOT/usr/lib/grub/%{grubaltefiarch}/ \\\; \
 find $RPM_BUILD_ROOT -type f -iname "*.mod*" -exec chmod a-x {} '\;'	\
+install -d -m 0755 ${RPM_BUILD_ROOT}%{_libdir}/efi		\
+install -d -m 0755 ${RPM_BUILD_ROOT}%{_libdir}/efi/grub2	\
+install -d -m 0755 ${RPM_BUILD_ROOT}%{grub_evr_dir}		\
+install -d -m 0755 ${RPM_BUILD_ROOT}%{grub_evr_dir}/EFI		\
 install -d -m 0700 ${RPM_BUILD_ROOT}%{grub_efi_dir}/		\
 install -m 700 %{2} $RPM_BUILD_ROOT%{grub_efi_dir}/%{2} \
 install -m 700 %{3} $RPM_BUILD_ROOT%{grub_efi_dir}/%{3} \
@@ -735,6 +739,10 @@ fi								\
 find $RPM_BUILD_ROOT -iname "*.module" -exec chmod a-x {} '\;'	\
 ln -s ../boot/grub2/grub.cfg					\\\
 	$RPM_BUILD_ROOT%{_sysconfdir}/grub2-efi.cfg		\
+install -d -m 0755 ${RPM_BUILD_ROOT}%{_libdir}/efi		\
+install -d -m 0755 ${RPM_BUILD_ROOT}%{_libdir}/efi/grub2	\
+install -d -m 0755 ${RPM_BUILD_ROOT}%{grub_evr_dir}		\
+install -d -m 0755 ${RPM_BUILD_ROOT}%{grub_evr_dir}/EFI		\
 install -d -m 0700 ${RPM_BUILD_ROOT}%{grub_efi_dir}/		\
 install -m 700 %{2} $RPM_BUILD_ROOT%{grub_efi_dir}/%{2}	\
 install -m 700 %{3} $RPM_BUILD_ROOT%{grub_efi_dir}/%{3}	\
@@ -886,6 +894,10 @@ ln -s ../boot/grub2/grub.cfg					\\\
 %config(noreplace) %{_sysconfdir}/grub2.cfg			\
 %config(noreplace) %{_sysconfdir}/grub2-efi.cfg		\
 %ghost %attr(0700,root,root) %{efi_esp_dir}/%{2} \
+%dir %attr(0755,root,root) %{_libdir}/efi			\
+%dir %attr(0755,root,root) %{_libdir}/efi/grub2			\
+%dir %attr(0755,root,root) %{grub_evr_dir}			\
+%dir %attr(0755,root,root) %{grub_evr_dir}/EFI			\
 %dir %attr(0700,root,root) %{grub_efi_dir}                      \
 %attr(0700,root,root) %{grub_efi_dir}/%{2} 	\
 %ifarch %{arm}							\
