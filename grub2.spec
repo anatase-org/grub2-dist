@@ -17,7 +17,7 @@
 Name:		grub2
 Epoch:		1
 Version:	2.12
-Release:	78%{?dist}
+Release:	79%{?dist}
 Summary:	Bootloader with support for Linux, Multiboot and more
 License:	GPL-3.0-or-later
 URL:		http://www.gnu.org/software/grub/
@@ -702,6 +702,9 @@ fi
 %endif
 
 %changelog
+* Wed Sep 23 2026 Leo Sandoval <lsandova@redhat.com> - 2.12-79
+- term/serial: Reject caller-supplied port addresses under lockdown
+
 * Wed Sep 23 2026 Leo Sandoval <lsandova@redhat.com> - 2.12-78
 - bli: Allow overriding PACKAGE_STRING via grub-mkimage
 
