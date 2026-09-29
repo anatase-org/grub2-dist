@@ -17,7 +17,7 @@
 Name:		grub2
 Epoch:		1
 Version:	2.12
-Release:	80%{?dist}
+Release:	81%{?dist}
 Summary:	Bootloader with support for Linux, Multiboot and more
 License:	GPL-3.0-or-later
 URL:		http://www.gnu.org/software/grub/
@@ -702,6 +702,10 @@ fi
 %endif
 
 %changelog
+* Tue Sep 29 2026 Nicolas Frayer <nfrayer@redhat.con> - 2.12-81
+- Add play.mod in the module list
+- Resolves: #2533633
+
 * Tue Sep 28 2026 Josue Hernandez <josherna@redhat.com> - 2.12-80
 - Fix /usr/lib/efi folders ownership
 - Resolves: #2528260

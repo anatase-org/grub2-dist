@@ -176,7 +176,7 @@
 %{?with_xen_pvh_arch:%global without_xen_pvh_arch 1}
 
 %ifarch x86_64 %{ix86}
-%global platform_modules " backtrace chain tpm usb usbserial_common usbserial_pl2303 usbserial_ftdi usbserial_usbdebug keylayouts at_keyboard "
+%global platform_modules " backtrace chain tpm usb usbserial_common usbserial_pl2303 usbserial_ftdi usbserial_usbdebug keylayouts at_keyboard play "
 %endif
 
 %ifarch ppc64le
