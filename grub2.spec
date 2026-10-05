@@ -17,7 +17,7 @@
 Name:		grub2
 Epoch:		1
 Version:	2.12
-Release:	81%{?dist}
+Release:	82%{?dist}
 Summary:	Bootloader with support for Linux, Multiboot and more
 License:	GPL-3.0-or-later
 URL:		http://www.gnu.org/software/grub/
@@ -702,6 +702,10 @@ fi
 %endif
 
 %changelog
+* Fri Oct 02 2026 Leo Sandoval <lsandova@redhat.com> - 2.12-82
+- Include chain module on aarch64, arm and riscv64 platforms
+- Resolves: #2545182
+
 * Tue Sep 29 2026 Nicolas Frayer <nfrayer@redhat.con> - 2.12-81
 - Add play.mod in the module list
 - Resolves: #2533633

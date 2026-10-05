@@ -184,7 +184,7 @@
 %endif
 
 %ifarch aarch64 %{arm} riscv64
-%global platform_modules " "
+%global platform_modules " chain "
 %endif
 
 %ifarch aarch64 %{arm} riscv64
